@@ -19,7 +19,7 @@ func main() {
 	stdin := bufio.NewScanner(os.Stdin)
 	for stdin.Scan() {
 		conn.WriteMessage(websocket.TextMessage, []byte(stdin.Text()))
-		fmt.Printf("\x1b[34m     message wrote: %s \x1b[0m\n", message)
+		fmt.Printf("\x1b[34m     message wrote: %s \x1b[0m\n", stdin.Text())
 		fmt.Print("input message: ")
 	}
 }
