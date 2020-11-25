@@ -6,16 +6,19 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+var (
+	connections map[*websocket.Conn]bool
+	upgrader    = websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+	}
+)
+
 func main() {
+	connections = make(map[*websocket.Conn]bool)
 	http.HandleFunc("/websocket", serveWebsocket)
 	http.ListenAndServe(":8080", nil)
 }
-
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-}
-var connections map[*websocket.Conn]bool
 
 func serveWebsocket(w http.ResponseWriter, r *http.Request) {
 	conn, _ := upgrader.Upgrade(w, r, nil)
