@@ -33,7 +33,10 @@ func serveWebsocket(w http.ResponseWriter, r *http.Request) {
 
 	// Read message and Send it to all connections
 	for {
-		messageType, message, _ := conn.ReadMessage()
+		messageType, message, err := conn.ReadMessage()
+		if err != nil {
+			return
+		}
 		for c := range connections {
 			c.WriteMessage(messageType, message)
 		}
